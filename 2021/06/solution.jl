@@ -4,12 +4,11 @@ function parse_data(filepath::String = joinpath(@__DIR__, "example.txt"))
 end
 
 function simulate_lanternfish(start_timers, days)
-    cycle_counter = [count(==(n), start_timers) for n = 0:8]
-    for _ = 1:days
+    cycle_counter = [count(==(n), start_timers) for n in 0:8]
+    for _ in 1:days
         n_new_fish = popfirst!(cycle_counter)
         cycle_counter[7] += n_new_fish
         push!(cycle_counter, n_new_fish)
-
     end
     return cycle_counter
 end

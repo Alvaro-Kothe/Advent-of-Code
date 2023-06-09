@@ -21,7 +21,7 @@ open("input.txt") do io
         push!(a, s)
     end
     group_sum = Int64[]
-    for i = 1:(length(a)-2)
+    for i in 1:(length(a)-2)
         push!(group_sum, sum(a[i:i+2]))
     end
     diffs = diff(group_sum)

@@ -2,7 +2,6 @@ using DelimitedFiles
 
 data = readdlm("input.txt")
 
-
 function part1(data)
     depth = horizontal = 0
     for (command, value) in eachrow(data)

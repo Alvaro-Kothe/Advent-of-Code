@@ -11,9 +11,8 @@ function parse_data(filepath::String = joinpath(@__DIR__, "example.txt"))
     return number_draw, cards_matrix
 end
 
-
 function is_bingo(board)
-    for dim = 1:2
+    for dim in 1:2
         if any(all(i -> i == -1, board, dims = dim))
             return true
         end
@@ -40,7 +39,7 @@ end
 
 function part2()
     numbers, boards = parse_data("input.txt")
-    for _ = 1:length(numbers)
+    for _ in 1:length(numbers)
         number_pulled = popfirst!(numbers)
         mark_number!.(boards, number_pulled)
 
