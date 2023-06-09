@@ -14,7 +14,6 @@ function part1(data)
     return gamma * epsilon
 end
 
-
 function rating(data, index = 1; get_most_common = true)
     n_rows, n_cols = size(data)
     if index > n_cols || n_rows == 1
@@ -32,7 +31,6 @@ function part2(data)
     co2 = rating(data, get_most_common = false)
     return or * co2
 end
-
 
 println(part1(data))
 println(part2(data))

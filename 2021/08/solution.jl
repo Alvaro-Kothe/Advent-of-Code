@@ -5,7 +5,6 @@ function part1(filepath = joinpath(@__DIR__, "example.txt"))::Int
         _, output = split(line, " | ")
         length_outputs = map(length, split(output))
         answer += sum([count(==(i), length_outputs) for i in len_lookup])
-
     end
     return answer
 end
@@ -35,7 +34,6 @@ function decode(output, wire)::Char
         end
         return '6'
     end
-
 end
 
 function part2(filepath = joinpath(@__DIR__, "example.txt"))::Int
@@ -46,7 +44,6 @@ function part2(filepath = joinpath(@__DIR__, "example.txt"))::Int
 
         numeric_string = map(x -> decode(x, wire), split(output)) |> join
         answer += parse(Int, numeric_string)
-
     end
     return answer
 end

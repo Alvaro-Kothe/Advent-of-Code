@@ -11,8 +11,6 @@ end
 function part1(data)::Int
     median_like = get_middle_point(data)
     return sum(abs, data .- median_like)
-
-
 end
 
 function part2(data)::Int

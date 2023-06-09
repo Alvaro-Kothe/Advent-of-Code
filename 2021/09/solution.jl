@@ -7,11 +7,10 @@ function part1(data)
     answer = 0
     nrow, ncol = size(data)
 
-    for j = 1:ncol, i = 1:nrow
-
+    for j in 1:ncol, i in 1:nrow
         cur_val = data[i, j]
         neighbours = [
-            data[i+i_, j+j_] for i_ = -1:1, j_ = -1:1 if
+            data[i+i_, j+j_] for i_ in -1:1, j_ in -1:1 if
             1 <= i + i_ <= nrow && 1 <= j + j_ <= ncol && abs(i_) != abs(j_)
         ]
         if cur_val < minimum(neighbours)
@@ -58,14 +57,12 @@ function part2(data)
                 [cur_pos + up, cur_pos - up, cur_pos + right, cur_pos - right],
             )
             append!(queue, next_idx)
-
         end
 
         push!(basin_sizes, size)
     end
     return partialsort(basin_sizes, 1:3, rev = true) |> prod
 end
-
 
 data = parse_data(joinpath(@__DIR__, "input.txt"))
 
