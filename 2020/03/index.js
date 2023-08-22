@@ -32,4 +32,4 @@ for (let i = 0; i < slopes.length; i++) {
 
   console.log(ntrees);
 }
-  console.log(prod);
+console.log(prod);
