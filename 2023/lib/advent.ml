@@ -11,3 +11,8 @@ let read_file file_name =
   in
   read_lines []
 ;;
+
+let rec sum = function
+  | [] -> 0
+  | h :: t -> h + sum t
+;;
