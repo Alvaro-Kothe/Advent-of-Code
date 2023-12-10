@@ -16,3 +16,8 @@ let rec sum = function
   | [] -> 0
   | h :: t -> h + sum t
 ;;
+
+let rec match_to_int = function
+  | [] -> []
+  | h :: t -> int_of_string (Re.Group.get h 1) :: match_to_int t
+;;
