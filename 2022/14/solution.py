@@ -45,7 +45,7 @@ def sand_fall_bottom(rocks_positions: set):
                 break
         else:
             sand_rest_positions.add(sand_cur_position)
-            print("current rested sands:", len(sand_rest_positions))
+            # print("current rested sands:", len(sand_rest_positions))
             sand_cur_position = sand_origin
 
     return sand_rest_positions

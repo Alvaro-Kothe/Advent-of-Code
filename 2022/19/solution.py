@@ -1,6 +1,6 @@
-from os import listdir
 import re
 from collections import deque
+from os import listdir
 
 
 def parse_data(filepath="example.txt"):
@@ -81,8 +81,8 @@ def bfs(
             continue
         seen.add(cur_state)
 
-        if len(seen) % 1_000_00 == 0:
-            print(rem_time, max_geodes, len(seen))
+        # if len(seen) % 1_000_00 == 0:
+        #     print(rem_time, max_geodes, len(seen))
 
         next_state = increase_ores(state=cur_state)
         queue.append(tuple(next_state))
@@ -129,5 +129,5 @@ def part2():
 
 
 if __name__ == "__main__":
-    # print(part1())
+    print(part1())
     print(part2())

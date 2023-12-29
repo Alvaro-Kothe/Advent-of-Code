@@ -16,46 +16,51 @@ def simulate(n_rocks, hot_gas_data):
     ground_width = 7
     height = 0
 
-    blocked_positions = {x + (height - 1) * 1j for x in range(ground_width)}
+    rock_idx = jet_idx = 0
+    blocked_positions = set()
+
+    def is_available(pos: complex):
+        return (
+            0 <= pos.real < ground_width
+            and pos.imag > 0
+            and pos not in blocked_positions
+        )
+
+    def valid_move(pos: complex, dir: complex, rock: list[complex]):
+        return all(is_available(pos + dir + x) for x in rock)
 
     cache = {}
 
-    rock_idx = jet_idx = 0
-
     for i in range(n_rocks):
-        rock = [x + 2 + (height + 3) * 1j for x in ROCKS[rock_idx]]
-        rock_idx = (rock_idx + 1) % len(ROCKS)
+        pos = complex(2, height + 4)
 
         key = rock_idx, jet_idx
-        if key in cache:
-            cached_step, cached_height = cache[key]
-            remaining_rocks = n_rocks - i
-            steps_since_cache = i - cached_step
+        # if key in cache:
+        #     cached_step, cached_height = cache[key]
+        #     remaining_rocks = n_rocks - i
+        #     steps_since_cache = i - cached_step
+        #
+        #     div, rem = divmod(remaining_rocks, steps_since_cache)
+        #     is_cycle = rem == 0
+        #     if is_cycle:
+        #         return int(height + (height - cached_height) * div)
+        # else:
+        #     cache[key] = i, height
 
-            div, rem = divmod(remaining_rocks, steps_since_cache)
-            is_cycle = rem == 0
-            if is_cycle:
-                return int(height + (height - cached_height) * div)
-        else:
-            cache[key] = i, height
-
+        rock = ROCKS[rock_idx]
+        rock_idx = (rock_idx + 1) % len(ROCKS)
         while True:
             jet = hot_gas_data[jet_idx]
             jet_idx = (jet_idx + 1) % len(hot_gas_data)
 
-            moved_rock = [x + jet for x in rock]
-            if all(
-                0 <= x.real < 7 for x in moved_rock
-            ) and not blocked_positions.intersection(moved_rock):
-                rock = moved_rock
-
-            moved_rock = [x - 1j for x in rock]
-
-            if not blocked_positions.intersection(moved_rock):
-                rock = moved_rock
+            if valid_move(pos, jet, rock):
+                pos += jet
+            if valid_move(pos, -1j, rock):
+                pos += -1j
             else:
-                height = max(height, max(rock, key=lambda x: x.imag).imag + 1)
-                blocked_positions.update(rock)
+                rock_height = max(rock, key=lambda x: x.imag).imag + pos.imag
+                height = max(height, rock_height)
+                blocked_positions.update([pos + x for x in rock])
                 break
 
     return int(height)
@@ -75,4 +80,4 @@ def part2():
 
 if __name__ == "__main__":
     print(part1())
-    print(part2())
+    # print(part2())

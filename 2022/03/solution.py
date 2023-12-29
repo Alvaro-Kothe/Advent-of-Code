@@ -53,6 +53,7 @@ def solution1(filepath: str) -> dict:
 
 
 def main():
+    print(solution1("input.txt"))
     score = solution2("input.txt")
     print(score)
 

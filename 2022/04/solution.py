@@ -8,9 +8,6 @@ def main1():
 
             n_contained += (range1[0] - range2[0]) * (range1[1] - range2[1]) <= 0
 
-            if (range1[0] - range2[0]) * (range1[1] - range2[1]) == 0:
-                print(range1, range2)
-
     return n_contained
 
 

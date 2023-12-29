@@ -6,7 +6,6 @@ ENC_column2 = {"X": 2, "Y": 0, "Z": 1}
 def compute_result2(op: str, me: str) -> int:
     op_enc = ENC_OP[op]
     me_enc = (op_enc + ENC_column2[me]) % 3
-    print(op_enc, me_enc)
 
     return me_enc + 1 + get_result(op_enc, me_enc)
 
@@ -45,7 +44,7 @@ def solution2(filepath: str) -> dict:
     return score
 
 
-def solution1(filepath: str) -> dict:
+def solution1(filepath: str) -> int:
     score = 0
 
     with open(filepath) as f:
@@ -57,6 +56,8 @@ def solution1(filepath: str) -> dict:
 
 
 def main():
+    score = solution1("input.txt")
+    print(score)
     score = solution2("input.txt")
     print(score)
 

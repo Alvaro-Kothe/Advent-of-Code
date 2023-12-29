@@ -1,5 +1,5 @@
-import re
 import math
+import re
 
 
 def parse_operation(operation_string: str):
@@ -92,25 +92,13 @@ def part1():
 
 
 def part2():
-    # Cant reduce stress by dividing by 3 anymore
-    # Still need to reduce stress
-    # Alternatives:
-    #   - root X monkey 2 in example badly receive any item
-    #   - log X monkey 2 in example badly receive any item
-    #   - modulo Best alternative v
-    # Tests still need to be valid, so the numbers can still needs to get larger than
-    #   `divisible_number`
-    # Options:
-    #   - productory of all elements v
-
     monkeys = parse_data()
     monkey_divisions = [monkey["divisible_number"] for monkey in monkeys.values()]
 
     def stress_ctrl_fun(x):
-        return int(x % productory(monkey_divisions))
+        return int(x % math.lcm(*monkey_divisions))
 
     times_inspected = simulate(monkeys, 10_000, stress_ctrl_fun=stress_ctrl_fun)
-    print(times_inspected)
     top_2 = dict_top_n_values(times_inspected, 2)
     return productory(top_2)
 

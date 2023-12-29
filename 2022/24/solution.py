@@ -37,8 +37,6 @@ def bfs(blizzards: dict[str, set], initial_pos: complex, goal, height, width):
             continue
         seen.add((cur_pos, time))
 
-        if len(seen) % 10000 == 0:
-            print(cur_pos, time)
         bliz = {
             dir: {
                 wrap(bliz_pos + DIR[dir], height=height, width=width)
@@ -69,8 +67,6 @@ def part2():
     time1, blizzard1 = bfs(data, initial_pos, goal_pos, height, width)
     time2, blizzard2 = bfs(blizzard1, goal_pos, initial_pos, height, width)
     time3, _ = bfs(blizzard2, initial_pos, goal_pos, height, width)
-
-    print(time1, time2, time3)
 
     return sum([time1, time2, time3])
 
