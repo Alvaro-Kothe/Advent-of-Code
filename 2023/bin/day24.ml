@@ -50,3 +50,32 @@ let () =
   let pv = parse_data data in
   chech_inter range range pv |> Printf.printf "Part1: %d\n"
 ;;
+
+let () =
+  let hailstones = parse_data data in
+  let file_out = "day24.ae" in
+  let oc = open_out file_out in
+  Printf.fprintf oc "logic x, y, z, vx, vy, vz : real\n";
+  Seq.iteri
+    (fun idx ((x, y, z), (vx, vy, vz)) ->
+      Printf.fprintf
+        oc
+        "axiom a%d : (x - %f) * (%f - vy) = (y - %f) * (%f - vx)\n"
+        idx
+        x
+        vy
+        y
+        vx;
+      Printf.fprintf
+        oc
+        "axiom b%d : (y - %f) * (%f - vz) = (z - %f) * (%f - vy)\n"
+        idx
+        y
+        vz
+        z
+        vy;
+      ())
+    (List.to_seq hailstones |> Seq.take 10);
+  Printf.fprintf oc "check_sat c : x + y + z > 0.0\n";
+  close_out oc
+;;
