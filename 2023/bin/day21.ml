@@ -26,11 +26,16 @@ let parse_data strs =
 let move_directions = [ 1, 0; -1, 0; 0, 1; 0, -1 ]
 
 let get_neighbors (x, y) blocked (xb, yb) =
+  let match_loop x n =
+    match x mod n with
+    | d when d >= 0 -> d
+    | d -> n + d
+  in
   let rec aux = function
     | [] -> []
     | (dx, dy) :: t ->
       let nx, ny = x + dx, y + dy in
-      if PairSet.mem (abs nx mod xb, abs ny mod yb) blocked
+      if PairSet.mem (match_loop nx xb, match_loop ny yb) blocked
       then aux t
       else (nx, ny) :: aux t
   in
@@ -59,7 +64,11 @@ let () =
   walk 64 start rock bounds |> Printf.printf "Part1: %d\n"
 ;;
 
-let interpolate [ a; b; c ] x = a + (x * (b - a)) + (x * (x - 1) * (c - b - b + a) / 2)
+let interpolate lst x =
+  match lst with
+  | [ c; b; a ] -> a + (x * (b - a + ((x - 1) * (c - b - b + a) / 2)))
+  | _ -> failwith "Expected length 3"
+;;
 
 let walk2 n start rock (xb, yb) =
   let rec loop step acc queue =
