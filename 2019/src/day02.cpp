@@ -1,10 +1,9 @@
-#include "iostream"
 #include <fstream>
+#include <iostream>
 #include <vector>
 using namespace std;
 
 vector<int> parse_data(istream &fh) {
-  int val;
   vector<int> out;
   string str;
   while (getline(fh, str, ',')) {
@@ -42,8 +41,9 @@ int part2(vector<int> vint) {
   throw std::runtime_error("Not found");
 }
 
-int main() {
-  std::ifstream fh("input/day02.txt");
+int main(int argc, char **argv) {
+  string filepath = argc > 1 ? argv[1] : "input/day02.txt";
+  std::ifstream fh(filepath);
   vector<int> program = parse_data(fh);
   program[1] = 12;
   program[2] = 2;
