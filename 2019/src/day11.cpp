@@ -103,6 +103,8 @@ public:
     }
     return -1;
   }
+
+  virtual ~IntcodeProgram() {}
 };
 
 pair_map run_robot(vec_int program, int start_color = 0) {
