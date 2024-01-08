@@ -7,19 +7,22 @@
 #include <set>
 #include <stdexcept>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
-using vec_int = std::vector<unsigned long long int>;
 using position = std::pair<int, int>;
 using pair_map = std::map<position, bool>;
 using pairset = std::set<position>;
+using memory_t = std::unordered_map<unsigned long long int, long long int>;
 
-vec_int parse_data(std::istream &fh) {
-  vec_int out;
+memory_t parse_data(std::istream &fh) {
+  memory_t out;
   std::string str;
+  int i = 0;
   while (getline(fh, str, ',')) {
-    out.push_back(std::stoll(str));
+    out[i] = std::stoll(str);
+    i++;
   }
   return out;
 }
@@ -45,11 +48,11 @@ class IntcodeProgram {
   }
 
 public:
-  vec_int program;
+  memory_t program;
   int inst_ptr = 0;
   int relative_base = 0;
 
-  IntcodeProgram(vec_int program) : program(program) {}
+  IntcodeProgram(memory_t program) : program(program) {}
 
   int run_program(int input) {
     int op_code, ow;
@@ -107,7 +110,7 @@ public:
   virtual ~IntcodeProgram() {}
 };
 
-pair_map run_robot(vec_int program, int start_color = 0) {
+pair_map run_robot(memory_t program, int start_color = 0) {
   IntcodeProgram intcode(program);
   int x = 0, y = 0;
   int dx = 0, dy = -1;
@@ -161,7 +164,7 @@ void display(std::vector<std::pair<int, int>> map) {
   }
 }
 
-void part2(vec_int program) {
+void part2(memory_t program) {
   IntcodeProgram intcode(program);
   int x = 0, y = 0;
   int dx = 0, dy = -1;
@@ -208,7 +211,7 @@ int main(int argc, char **argv) {
     std::cerr << "File not found\n";
     return 1;
   }
-  vec_int program = parse_data(fh);
+  memory_t program = parse_data(fh);
   std::cout << "Part1: " << run_robot(program).size() << std::endl;
   std::cout << "Part2: " << std::endl;
   part2(program);

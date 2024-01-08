@@ -2,14 +2,16 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
-#include <vector>
+#include <unordered_map>
 
-using vec_int = std::vector<unsigned long long int>;
-vec_int parse_data(std::istream &fh) {
-  vec_int out;
+using memory_t = std::unordered_map<unsigned long long int, long long int>;
+memory_t parse_data(std::istream &fh) {
+  memory_t out;
   std::string str;
+  int i = 0;
   while (getline(fh, str, ',')) {
-    out.push_back(std::stoll(str));
+    out[i] = std::stoll(str);
+    i++;
   }
   return out;
 }
@@ -20,7 +22,7 @@ int power(unsigned int a, unsigned int b) {
   return a * power(a, b - 1);
 }
 
-void run_program(vec_int vint, int input) {
+void run_program(memory_t vint, int input) {
   int inst_ptr = 0, relative_base = 0;
   int op_code, ow;
   auto get_pos = [&vint, &inst_ptr, &relative_base](int i) -> int {
@@ -86,7 +88,7 @@ void run_program(vec_int vint, int input) {
 int main(int argc, char **argv) {
   std::string filepath = argc > 1 ? argv[1] : "input/day09.txt";
   std::ifstream fh(filepath);
-  vec_int program = parse_data(fh);
+  memory_t program = parse_data(fh);
   std::cout << "Part1: ";
   run_program(program, 1);
   std::cout << "Part2: ";
