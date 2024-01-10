@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.27.7)
 project(AoC-2019 LANGUAGES CXX)
 
+add_compile_options(-Wall -Wextra -Wpedantic)
+
 add_executable(day01 src/day01.cpp)
 add_executable(day02 src/day02.cpp)
 add_executable(day03 src/day03.cpp)
@@ -16,7 +18,7 @@ add_executable(day12 src/day12.cpp)
 add_executable(day13 src/day13.cpp)
 add_executable(day14 src/day14.cpp)
 add_executable(day15 src/day15.cpp)
-# add_executable(day16 src/day16.cpp)
+add_executable(day16 src/day16.cpp)
 # add_executable(day17 src/day17.cpp)
 # add_executable(day18 src/day18.cpp)
 # add_executable(day19 src/day19.cpp)
