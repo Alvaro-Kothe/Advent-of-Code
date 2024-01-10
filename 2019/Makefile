@@ -11,7 +11,7 @@ OBJS=$(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%, $(SRCS))
 
 all: $(OBJS)
 
-$(BUILD_DIR)/%: $(SRC_DIR)/%.cpp
+$(BUILD_DIR)/% &: $(SRC_DIR)/%.cpp
 	@mkdir -p $(@D)
 	$(CMAKE) -S . -B $(@D)
 	make -C $(@D)
