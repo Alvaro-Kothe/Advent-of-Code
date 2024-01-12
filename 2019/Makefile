@@ -2,19 +2,17 @@ CC=g++
 CFLAGS=-Wall
 CMAKE=cmake
 
-SRC_DIR=./src
 BUILD_DIR=./build
-SRCS=$(wildcard $(SRC_DIR)/*.cpp)
-OBJS=$(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%, $(SRCS))
 
 .PHONY: all build
 
-all: $(OBJS)
+all: compile
 
-$(BUILD_DIR)/% &: $(SRC_DIR)/%.cpp
-	@mkdir -p $(@D)
-	$(CMAKE) -S . -B $(@D)
-	make -C $(@D)
+build:
+	$(CMAKE) -S . -B $(BUILD_DIR)
+
+compile: build
+	make -C $(BUILD_DIR)
 
 clean:
 	rm -rf $(BUILD_DIR)
