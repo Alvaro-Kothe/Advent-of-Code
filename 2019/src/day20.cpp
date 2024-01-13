@@ -150,9 +150,9 @@ size_t part2(Grid grid) {
         continue;
       if (auto it = grid.portal_pos2pos.find(next_pos);
           it != grid.portal_pos2pos.end()) {
-        if (3 < next_pos.first && next_pos.first < grid.nrow - 3 &&
+        if (3 < next_pos.first && (size_t)next_pos.first < grid.nrow - 3 &&
             3 < next_pos.second &&
-            next_pos.second < grid.ncol - 3) // Inner loop
+            (size_t)next_pos.second < grid.ncol - 3) // Inner loop
           queue.push({{it->second, depth + 1}, dst + 2});
         else if (depth > 0) // outer loop
           queue.push({{it->second, depth - 1}, dst + 2});

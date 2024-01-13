@@ -6,16 +6,11 @@
 #include <ostream>
 #include <string>
 
-template <typename T, typename U>
-std::pair<T, U> operator+(const std::pair<T, U> &l, const std::pair<T, U> &r) {
-  return {l.first + r.first, l.second + r.second};
-}
-
 bool check_position(memory_t program, std::size_t x, std::size_t y) {
   std::queue<int64_t> queue;
   queue.push(x);
   queue.push(y);
-  return Intcode::IntcodeProgram(program).run_program(queue);
+  return Intcode::IntcodeProgram<int64_t>(program).run_program(queue);
 }
 
 using position_t = std::pair<int, int>;

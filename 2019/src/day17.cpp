@@ -1,4 +1,5 @@
 #include "intcode.h"
+#include "utils.h"
 #include <array>
 #include <cstdint>
 #include <fstream>
@@ -9,7 +10,7 @@
 
 using position_t = std::pair<int, int>;
 std::string ascii_program(memory_t program) {
-  Intcode::IntcodeProgram intcode(program);
+  Intcode::IntcodeProgram<int64_t> intcode(program);
   std::string out;
   while (!intcode.finished) {
     char c = intcode.run_program();
@@ -65,11 +66,6 @@ Grid parse_grid(const std::string grid_str) {
   }
   grid.nrow = i;
   return grid;
-}
-
-template <typename T, typename U>
-std::pair<T, U> operator+(const std::pair<T, U> &l, const std::pair<T, U> &r) {
-  return {l.first + r.first, l.second + r.second};
 }
 
 uint32_t part1(const std::set<position_t> scafolds) {
@@ -177,7 +173,7 @@ int main(int argc, char **argv) {
   std::queue<int64_t> input_queue;
   for (char ch : path_parts)
     input_queue.push(ch);
-  Intcode::IntcodeProgram intcode(program);
+  Intcode::IntcodeProgram<int64_t> intcode(program);
   intcode.memory[0] = 2;
   intcode.queue = input_queue;
   int p2 = 0;
