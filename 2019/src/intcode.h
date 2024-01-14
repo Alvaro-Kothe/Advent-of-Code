@@ -6,7 +6,9 @@
 #include <cstdint>
 #include <iostream>
 #include <istream>
+#include <optional>
 #include <queue>
+#include <stdexcept>
 #include <string>
 #include <unordered_map>
 
@@ -39,19 +41,23 @@ public:
   memory_t memory;
   int64_t inst_ptr = 0;
   int64_t relative_base = 0;
-  bool finished = false;
+  bool finished = false, use_default = false;
   std::queue<T> queue;
+  T default_input;
   int64_t last_output = -1;
 
+  IntcodeProgram() {}
   IntcodeProgram(const memory_t program) : memory(program) {}
+  IntcodeProgram(const memory_t program, const std::queue<T> queue)
+      : memory(program), queue(queue) {}
 
-  int64_t run_program() {
+  std::optional<int64_t> run_program(int timeout) {
     int op_code, ow;
     if (finished) {
       std::cerr << "Program stopped\n";
       throw 1;
     }
-    while (true) {
+    for (;;) {
       op_code = memory[inst_ptr] % 100;
       switch (op_code) {
       case 1:
@@ -65,7 +71,13 @@ public:
         inst_ptr += 4;
         break;
       case 3:
-        assert(!queue.empty());
+        if (queue.empty() && !use_default)
+          throw std::runtime_error("Queue is empty");
+        else if (queue.empty() && timeout > 0) {
+          timeout--;
+          queue.push(default_input);
+        } else if (queue.empty())
+          return std::nullopt;
         ow = get_pos(1);
         memory[ow] = queue.front();
         queue.pop();
@@ -105,10 +117,9 @@ public:
       }
     }
   }
-  int64_t run_program(T input) {
-    set_queue(input);
-    return run_program();
-  }
+
+  int64_t run_program() { return run_program(-1).value(); }
+
   int64_t run_program(std::queue<T> new_queue) {
     queue = new_queue;
     return run_program();
