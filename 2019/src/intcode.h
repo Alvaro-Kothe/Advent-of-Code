@@ -128,9 +128,9 @@ public:
     for (char ch : str)
       queue.push(ch);
   }
-  void set_queue(T input) {
-    queue = std::queue<T>();
-    queue.push(input);
+  void clear_queue() {
+    std::queue<T> empty;
+    queue.swap(empty);
   }
 };
 } // namespace Intcode
