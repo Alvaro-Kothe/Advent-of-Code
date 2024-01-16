@@ -1,4 +1,3 @@
-#include "intcode.h"
 #include <cstdint>
 #include <fstream>
 #include <iostream>
@@ -12,6 +11,8 @@
 #include <unordered_set>
 #include <vector>
 
+#include "intcode.h"
+
 using position_t = std::pair<int, int>;
 void play(memory_t program) {
   Intcode::IntcodeProgram<int64_t> intcode(program);
@@ -22,8 +23,7 @@ void play(memory_t program) {
     if (!prun.has_value()) {
       std::string instructions;
       std::getline(std::cin, instructions);
-      if (instructions == "quit")
-        break;
+      if (instructions == "quit") break;
 
       cumulative_commands += instructions + "\\n";
       instructions += '\n';
@@ -49,8 +49,7 @@ std::string get_msg(Intcode::IntcodeProgram<int64_t> &intcode) {
   std::string msg;
   for (;;) {
     std::optional<int64_t> prun = intcode.run_program(0);
-    if (!prun.has_value())
-      return msg;
+    if (!prun.has_value()) return msg;
     msg += *prun;
   }
 }
@@ -95,19 +94,17 @@ int bfs(const memory_t program) {
   while (!queue.empty()) {
     auto cur_state = queue.front();
     queue.pop();
-    if (cur_state.program.finished)
-      continue;
+    if (cur_state.program.finished) continue;
     std::string msg = get_msg(cur_state.program);
     auto options = parse_msg(msg);
     cur_state.room = options.room;
     auto key = cur_state.get_key();
-    if (cur_state.room == "Security Checkpoint" && // how to generalize this?
+    if (cur_state.room == "Security Checkpoint" &&  // how to generalize this?
         cur_state.carried_items.size() == 8) {
       final_state = cur_state;
       break;
     }
-    if (seen_states.find(key) != seen_states.end())
-      continue;
+    if (seen_states.find(key) != seen_states.end()) continue;
     seen_states.insert(key);
     std::string next_command;
     // take items

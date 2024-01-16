@@ -35,15 +35,15 @@ int part1(const image_layers layers) {
     for (int i = 0; i < height; ++i) {
       for (int j = 0; j < width; ++j) {
         switch (layers[layer][i][j]) {
-        case 0:
-          zero_count++;
-          break;
-        case 1:
-          one_count++;
-          break;
-        case 2:
-          two_count++;
-          break;
+          case 0:
+            zero_count++;
+            break;
+          case 1:
+            one_count++;
+            break;
+          case 2:
+            two_count++;
+            break;
         }
       }
     }

@@ -14,7 +14,7 @@ std::vector<int> parse_data(std::istream &fh) {
 }
 
 class Amplifier {
-public:
+ public:
   std::vector<int> program;
   int inst_ptr = 0;
 
@@ -34,50 +34,50 @@ public:
     while (program[inst_ptr] != 99) {
       op_code = program[inst_ptr] % 100;
       switch (op_code) {
-      case 1:
-        update_values(v1, v2);
-        ow = program[inst_ptr + 3];
-        program[ow] = v1 + v2;
-        inst_ptr += 4;
-        break;
-      case 2:
-        update_values(v1, v2);
-        ow = program[inst_ptr + 3];
-        program[ow] = v1 * v2;
-        inst_ptr += 4;
-        break;
-      case 3:
-        ow = program[inst_ptr + 1];
-        program[ow] = input_signal;
-        input_signal = output_signal;
-        inst_ptr += 2;
-        break;
-      case 4:
-        inst_ptr += 2;
-        return program[program[inst_ptr - 1]];
-        break;
-      case 5:
-        update_values(v1, v2);
-        inst_ptr = v1 != 0 ? v2 : inst_ptr + 3;
-        break;
-      case 6:
-        update_values(v1, v2);
-        inst_ptr = v1 == 0 ? v2 : inst_ptr + 3;
-        break;
-      case 7:
-        update_values(v1, v2);
-        ow = program[inst_ptr + 3];
-        program[ow] = v1 < v2 ? 1 : 0;
-        inst_ptr += 4;
-        break;
-      case 8:
-        update_values(v1, v2);
-        ow = program[inst_ptr + 3];
-        program[ow] = v1 == v2 ? 1 : 0;
-        inst_ptr += 4;
-        break;
-      default:
-        throw std::runtime_error("Bad operator");
+        case 1:
+          update_values(v1, v2);
+          ow = program[inst_ptr + 3];
+          program[ow] = v1 + v2;
+          inst_ptr += 4;
+          break;
+        case 2:
+          update_values(v1, v2);
+          ow = program[inst_ptr + 3];
+          program[ow] = v1 * v2;
+          inst_ptr += 4;
+          break;
+        case 3:
+          ow = program[inst_ptr + 1];
+          program[ow] = input_signal;
+          input_signal = output_signal;
+          inst_ptr += 2;
+          break;
+        case 4:
+          inst_ptr += 2;
+          return program[program[inst_ptr - 1]];
+          break;
+        case 5:
+          update_values(v1, v2);
+          inst_ptr = v1 != 0 ? v2 : inst_ptr + 3;
+          break;
+        case 6:
+          update_values(v1, v2);
+          inst_ptr = v1 == 0 ? v2 : inst_ptr + 3;
+          break;
+        case 7:
+          update_values(v1, v2);
+          ow = program[inst_ptr + 3];
+          program[ow] = v1 < v2 ? 1 : 0;
+          inst_ptr += 4;
+          break;
+        case 8:
+          update_values(v1, v2);
+          ow = program[inst_ptr + 3];
+          program[ow] = v1 == v2 ? 1 : 0;
+          inst_ptr += 4;
+          break;
+        default:
+          throw std::runtime_error("Bad operator");
       }
     }
     return -1;

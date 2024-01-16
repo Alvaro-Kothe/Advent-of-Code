@@ -42,22 +42,22 @@ std::vector<technique_t> parse_data(std::istream &fh) {
 
 void apply_technique(std::vector<size_t> &deck, const technique_t technique) {
   switch (technique.type_t) {
-  case stack_t:
-    std::reverse(deck.begin(), deck.end());
-    break;
-  case cut_t:
-    std::rotate(deck.begin(),
-                (technique.n > 0 ? deck.begin() : deck.end()) + technique.n,
-                deck.end());
-    break;
-  case increment_t:
-    auto old_deck = deck;
-    size_t i = 0;
-    for (auto it : old_deck) {
-      deck[i] = it;
-      i = (i + technique.n) % old_deck.size();
-    }
-    break;
+    case stack_t:
+      std::reverse(deck.begin(), deck.end());
+      break;
+    case cut_t:
+      std::rotate(deck.begin(),
+                  (technique.n > 0 ? deck.begin() : deck.end()) + technique.n,
+                  deck.end());
+      break;
+    case increment_t:
+      auto old_deck = deck;
+      size_t i = 0;
+      for (auto it : old_deck) {
+        deck[i] = it;
+        i = (i + technique.n) % old_deck.size();
+      }
+      break;
   }
 }
 
@@ -65,8 +65,7 @@ size_t part1(const size_t deck_size,
              const std::vector<technique_t> techniques) {
   std::vector<size_t> deck(deck_size);
   std::iota(deck.begin(), deck.end(), 0u);
-  for (auto technique : techniques)
-    apply_technique(deck, technique);
+  for (auto technique : techniques) apply_technique(deck, technique);
   if (auto it_2019 = std::find(deck.begin(), deck.end(), 2019);
       it_2019 != deck.end())
     return std::distance(deck.begin(), it_2019);
@@ -76,12 +75,10 @@ size_t part1(const size_t deck_size,
 
 // https://stackoverflow.com/questions/43605542/how-to-find-modular-multiplicative-inverse-in-c#43605617
 size_t modpower(int128_t base, size_t exp, const size_t m) {
-  if (base <= 1 || exp <= 0 || m <= 0)
-    return 1;
+  if (base <= 1 || exp <= 0 || m <= 0) return 1;
   size_t out = 1;
   while (exp > 0) {
-    if (exp & 1)
-      out = (out * base) % m;
+    if (exp & 1) out = (out * base) % m;
     base = (base * base) % m;
     exp >>= 1;
   }
@@ -93,20 +90,20 @@ uint64_t modinv(int128_t a, size_t b) { return modpower(a, b - 2, b); }
 void apply_technique(int128_t &offset, int128_t &inc, const size_t deck_size,
                      const technique_t technique) {
   switch (technique.type_t) {
-  case stack_t:
-    inc = deck_size - inc;
-    offset = (offset + inc) % deck_size;
-    break;
-  case cut_t:
-    offset = (technique.n > 0
-                  ? offset + technique.n * inc
-                  : offset + ((technique.n + deck_size) * inc) % deck_size) %
-             deck_size;
-    break;
-  case increment_t:
-    // assume coprime
-    inc = (modinv(technique.n, deck_size) * inc) % deck_size;
-    break;
+    case stack_t:
+      inc = deck_size - inc;
+      offset = (offset + inc) % deck_size;
+      break;
+    case cut_t:
+      offset = (technique.n > 0
+                    ? offset + technique.n * inc
+                    : offset + ((technique.n + deck_size) * inc) % deck_size) %
+               deck_size;
+      break;
+    case increment_t:
+      // assume coprime
+      inc = (modinv(technique.n, deck_size) * inc) % deck_size;
+      break;
   }
 }
 

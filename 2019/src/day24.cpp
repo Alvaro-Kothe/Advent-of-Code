@@ -90,8 +90,7 @@ size_t bio_rating(const bitmatrix matrix) {
 size_t part1(bitmatrix matrix) {
   std::set<bitmatrix> seen;
   for (;;) {
-    if (seen.find(matrix) != seen.end())
-      return bio_rating(matrix);
+    if (seen.find(matrix) != seen.end()) return bio_rating(matrix);
     seen.insert(matrix);
     simulate_minute(matrix);
   }
@@ -99,21 +98,20 @@ size_t part1(bitmatrix matrix) {
 
 std::array<bool, 5> get_column(bitmatrix matrix, size_t column) {
   std::array<bool, 5> out;
-  for (size_t i = 0; i < 5; ++i)
-    out[i] = matrix[i][column];
+  for (size_t i = 0; i < 5; ++i) out[i] = matrix[i][column];
   return out;
 }
 
 size_t get_bugs_within(const bitmatrix matrix, const size_t row,
                        const size_t column) {
   std::array<bool, 5> bugs;
-  if (row == 3 && column == 2) // R: i = 3; j = 2
+  if (row == 3 && column == 2)  // R: i = 3; j = 2
     bugs = matrix[4];
-  else if (row == 1 && column == 2) // H: i = 1, j = 2
+  else if (row == 1 && column == 2)  // H: i = 1, j = 2
     bugs = matrix[0];
-  else if (row == 2 && column == 1) // L: i = 2, j = 1
+  else if (row == 2 && column == 1)  // L: i = 2, j = 1
     bugs = get_column(matrix, 0);
-  else if (row == 2 && column == 3) // N: i = 2, j = 3
+  else if (row == 2 && column == 3)  // N: i = 2, j = 3
     bugs = get_column(matrix, 4);
   else
     throw std::domain_error("Undefined behaviour");
@@ -133,10 +131,10 @@ int convolve_aux(rec_bitmatrix &matrix, const T kernel, const size_t i,
       result +=
           kernel[ki][kj] == 0 ? 0
           : (i + ki < offset || j + kj < offset || i + ki - offset >= 5 ||
-             j + kj - offset >= 5) // border
+             j + kj - offset >= 5)  // border
               ? matrix[level - 1][2 + ki - offset][2 + kj - offset] *
                     kernel[ki][kj]
-              : (i + ki - offset == 2 && j + kj - offset == 2) // middle
+              : (i + ki - offset == 2 && j + kj - offset == 2)  // middle
                     ? get_bugs_within(matrix[level + 1], i, j) * kernel[ki][kj]
                     : matrix[level][i + ki - offset][j + kj - offset] *
                           kernel[ki][kj];
@@ -148,7 +146,7 @@ int convolve_aux(rec_bitmatrix &matrix, const T kernel, const size_t i,
 void simulate_minute(rec_bitmatrix &levels) {
   static const std::array<std::array<int, 3>, 3> kernel{
       {{{0, 1, 0}}, {{1, 0, 1}}, {{0, 1, 0}}}};
-  auto it = levels.begin(); // map sorts the keys in increasing order
+  auto it = levels.begin();  // map sorts the keys in increasing order
   int min_level = it->first;
   it = levels.end();
   it--;
@@ -159,8 +157,7 @@ void simulate_minute(rec_bitmatrix &levels) {
   for (auto &level : levels) {
     for (size_t i = 0; i < 5; ++i) {
       for (size_t j = 0; j < 5; ++j) {
-        if (i == 2 && j == 2)
-          continue;
+        if (i == 2 && j == 2) continue;
         int adj_bugs = convolve_aux(old_levels, kernel, i, j, level.first);
         if (old_levels[level.first][i][j] && adj_bugs != 1)
           level.second[i][j] = false;
@@ -174,8 +171,7 @@ void simulate_minute(rec_bitmatrix &levels) {
 size_t part2(const bitmatrix matrix) {
   rec_bitmatrix levels;
   levels[0] = matrix;
-  for (size_t i = 0; i < 200; ++i)
-    simulate_minute(levels);
+  for (size_t i = 0; i < 200; ++i) simulate_minute(levels);
   size_t result = 0;
   for (auto level : levels)
     for (auto row : level.second)

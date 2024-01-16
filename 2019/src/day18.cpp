@@ -103,10 +103,9 @@ std::vector<KeyState> get_reachable_keys(const Grid grid,
   return reachable_keys;
 }
 
-std::vector<std::vector<KeyState>>
-get_reachable_keys_per_robot(const Grid grid,
-                             const std::vector<position_t> positions,
-                             const keyset_t obtained_keys) {
+std::vector<std::vector<KeyState>> get_reachable_keys_per_robot(
+    const Grid grid, const std::vector<position_t> positions,
+    const keyset_t obtained_keys) {
   std::vector<std::vector<KeyState>> robots;
   for (auto pos : positions)
     robots.push_back(get_reachable_keys(grid, pos, obtained_keys));
@@ -118,8 +117,7 @@ uint32_t get_keys(
     const keyset_t obtained_keys,
     std::map<std::pair<std::vector<position_t>, keyset_t>, uint32_t> &cache) {
   std::pair<std::vector<position_t>, keyset_t> cache_key = {pos, obtained_keys};
-  if (auto it = cache.find(cache_key); it != cache.end())
-    return it->second;
+  if (auto it = cache.find(cache_key); it != cache.end()) return it->second;
   uint32_t collected_keys =
       std::reduce(obtained_keys.begin(), obtained_keys.end(), 0ul);
   if (collected_keys == grid.keys.size()) {

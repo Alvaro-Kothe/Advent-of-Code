@@ -12,8 +12,7 @@ using position_t = std::pair<int, int>;
 using memory_t = std::unordered_map<unsigned long long int, long long int>;
 
 int power(uint64_t a, uint64_t b) {
-  if (b == 0)
-    return 1;
+  if (b == 0) return 1;
   return a * power(a, b - 1);
 }
 
@@ -21,22 +20,22 @@ class IntcodeProgram {
   int64_t get_pos(int64_t i) {
     int64_t out;
     switch ((memory[inst_ptr] / (power(10, i + 1)) % 10)) {
-    case 0:
-      out = memory[inst_ptr + i];
-      break;
-    case 1:
-      out = inst_ptr + i;
-      break;
-    case 2:
-      out = relative_base + memory[inst_ptr + i];
-      break;
-    default:
-      throw std::runtime_error("Unexpected mode");
+      case 0:
+        out = memory[inst_ptr + i];
+        break;
+      case 1:
+        out = inst_ptr + i;
+        break;
+      case 2:
+        out = relative_base + memory[inst_ptr + i];
+        break;
+      default:
+        throw std::runtime_error("Unexpected mode");
     }
     return out;
   }
 
-public:
+ public:
   memory_t memory;
   int inst_ptr = 0;
   int64_t relative_base = 0;
@@ -53,52 +52,54 @@ public:
     while (true) {
       op_code = memory[inst_ptr] % 100;
       switch (op_code) {
-      case 1:
-        ow = get_pos(3);
-        memory[ow] = memory[get_pos(1)] + memory[get_pos(2)];
-        inst_ptr += 4;
-        break;
-      case 2:
-        ow = get_pos(3);
-        memory[ow] = memory[get_pos(1)] * memory[get_pos(2)];
-        inst_ptr += 4;
-        break;
-      case 3:
-        ow = get_pos(1);
-        memory[ow] = input;
-        inst_ptr += 2;
-        break;
-      case 4:
-        ow = get_pos(1);
-        inst_ptr += 2;
-        return memory[ow];
-      case 5:
-        inst_ptr = memory[get_pos(1)] != 0 ? memory[get_pos(2)] : inst_ptr + 3;
-        break;
-      case 6:
-        inst_ptr = memory[get_pos(1)] == 0 ? memory[get_pos(2)] : inst_ptr + 3;
-        break;
-      case 7:
-        ow = get_pos(3);
-        memory[ow] = memory[get_pos(1)] < memory[get_pos(2)] ? 1 : 0;
-        inst_ptr += 4;
-        break;
-      case 8:
-        ow = get_pos(3);
-        memory[ow] = memory[get_pos(1)] == memory[get_pos(2)] ? 1 : 0;
-        inst_ptr += 4;
-        break;
-      case 9:
-        relative_base += memory[get_pos(1)];
-        inst_ptr += 2;
-        break;
-      case 99:
-        finished = true;
-        return -1;
-        break;
-      default:
-        std::cerr << "Unexpected code " << op_code << '\n';
-        throw 1;
+        case 1:
+          ow = get_pos(3);
+          memory[ow] = memory[get_pos(1)] + memory[get_pos(2)];
+          inst_ptr += 4;
+          break;
+        case 2:
+          ow = get_pos(3);
+          memory[ow] = memory[get_pos(1)] * memory[get_pos(2)];
+          inst_ptr += 4;
+          break;
+        case 3:
+          ow = get_pos(1);
+          memory[ow] = input;
+          inst_ptr += 2;
+          break;
+        case 4:
+          ow = get_pos(1);
+          inst_ptr += 2;
+          return memory[ow];
+        case 5:
+          inst_ptr =
+              memory[get_pos(1)] != 0 ? memory[get_pos(2)] : inst_ptr + 3;
+          break;
+        case 6:
+          inst_ptr =
+              memory[get_pos(1)] == 0 ? memory[get_pos(2)] : inst_ptr + 3;
+          break;
+        case 7:
+          ow = get_pos(3);
+          memory[ow] = memory[get_pos(1)] < memory[get_pos(2)] ? 1 : 0;
+          inst_ptr += 4;
+          break;
+        case 8:
+          ow = get_pos(3);
+          memory[ow] = memory[get_pos(1)] == memory[get_pos(2)] ? 1 : 0;
+          inst_ptr += 4;
+          break;
+        case 9:
+          relative_base += memory[get_pos(1)];
+          inst_ptr += 2;
+          break;
+        case 99:
+          finished = true;
+          return -1;
+          break;
+        default:
+          std::cerr << "Unexpected code " << op_code << '\n';
+          throw 1;
       }
     }
   }
@@ -131,14 +132,14 @@ struct SearchState {
 
 position_t get_dir(int i) {
   switch (i) {
-  case 1:
-    return {-1, 0};
-  case 2:
-    return {1, 0};
-  case 3:
-    return {0, -1};
-  case 4:
-    return {0, 1};
+    case 1:
+      return {-1, 0};
+    case 2:
+      return {1, 0};
+    case 3:
+      return {0, -1};
+    case 4:
+      return {0, 1};
   }
   throw "Unexpected direction";
 }
@@ -157,20 +158,19 @@ void bfs(memory_t initial_program) {
     empty_spaces.insert(node.position);
     for (mv_cmd = 1; mv_cmd < 5; ++mv_cmd) {
       nxt_pos = get_dir(mv_cmd) + node.position;
-      if (empty_spaces.find(nxt_pos) != empty_spaces.end())
-        continue;
+      if (empty_spaces.find(nxt_pos) != empty_spaces.end()) continue;
       IntcodeProgram nxt_prg = node.intcode;
       int64_t status_code = nxt_prg.run_program(mv_cmd);
       switch (status_code) {
-      case 1:
-        to_visit.push(SearchState(node.n_commands + 1, nxt_pos, nxt_prg));
-        break;
-      case 2:
-        std::cout << "Part1: " << node.n_commands + 1 << std::endl;
-        ox_pos = nxt_pos;
-        break;
-      default:
-        break;
+        case 1:
+          to_visit.push(SearchState(node.n_commands + 1, nxt_pos, nxt_prg));
+          break;
+        case 2:
+          std::cout << "Part1: " << node.n_commands + 1 << std::endl;
+          ox_pos = nxt_pos;
+          break;
+        default:
+          break;
       }
     }
   }
@@ -185,8 +185,7 @@ void bfs(memory_t initial_program) {
     for (mv_cmd = 1; mv_cmd < 5; ++mv_cmd) {
       nxt_pos = get_dir(mv_cmd) + cur_pos;
       auto fill_it = empty_spaces.find(nxt_pos);
-      if (fill_it == empty_spaces.end())
-        continue;
+      if (fill_it == empty_spaces.end()) continue;
       empty_spaces.erase(fill_it);
       to_fill.push({nxt_pos, time + 1});
     }

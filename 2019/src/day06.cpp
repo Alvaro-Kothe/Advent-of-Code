@@ -53,8 +53,7 @@ int bfs(unordered_map<string, vector<string>> graph, string start,
   while (!que.empty()) {
     auto [node, dst] = que.front();
     que.pop();
-    if (node == target)
-      return dst;
+    if (node == target) return dst;
     visited.insert(node);
     for (string children : graph[node]) {
       if (visited.find(children) == visited.end()) {

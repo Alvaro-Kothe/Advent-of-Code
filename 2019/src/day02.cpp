@@ -18,12 +18,12 @@ int run_program(vector<int> vint) {
     int p2 = vint[i + 2];
     int overwrite_pos = vint[i + 3];
     switch (vint[i]) {
-    case 1:
-      vint[overwrite_pos] = vint[p1] + vint[p2];
-      break;
-    case 2:
-      vint[overwrite_pos] = vint[p1] * vint[p2];
-      break;
+      case 1:
+        vint[overwrite_pos] = vint[p1] + vint[p2];
+        break;
+      case 2:
+        vint[overwrite_pos] = vint[p1] * vint[p2];
+        break;
     }
   }
   return vint[0];
@@ -34,8 +34,7 @@ int part2(vector<int> vint) {
     for (int verb = 0; verb < 100; verb++) {
       vint[1] = noun;
       vint[2] = verb;
-      if (run_program(vint) == 19690720)
-        return 100 * noun + verb;
+      if (run_program(vint) == 19690720) return 100 * noun + verb;
     }
   }
   throw std::runtime_error("Not found");

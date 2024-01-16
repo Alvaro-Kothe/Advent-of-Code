@@ -1,9 +1,10 @@
-#include "intcode.h"
 #include <cstdint>
 #include <fstream>
 #include <iostream>
 #include <ostream>
 #include <string>
+
+#include "intcode.h"
 
 using position_t = std::pair<int, int>;
 int64_t part1(memory_t program) {
@@ -11,8 +12,8 @@ int64_t part1(memory_t program) {
   // ABC(D)
   // (!A || !B || !C) && D -> J
   // !(A && B && C) && D
-  std::string instructions = //
-      "OR A J\n"             // AND needs J as true
+  std::string instructions =  //
+      "OR A J\n"              // AND needs J as true
       "AND B J\n"
       "AND C J\n"
       "NOT J J\n"
@@ -43,7 +44,7 @@ int64_t part2(memory_t program) {
   // ~(~E ^ ~H) = E v H
   // ~(A ^ B ^ C) ^ D ^ (E v H)
   // ~(A ^ B ^ C) ^ (E v H) ^ D
-  std::string instructions = //
+  std::string instructions =  //
       "OR A T\n"
       "AND B T\n"
       "AND C T\n"

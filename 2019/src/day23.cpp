@@ -1,4 +1,3 @@
-#include "intcode.h"
 #include <array>
 #include <cstddef>
 #include <cstdint>
@@ -7,6 +6,8 @@
 #include <optional>
 #include <ostream>
 #include <string>
+
+#include "intcode.h"
 
 const size_t ncomputers = 50;
 const int default_input = -1;
@@ -23,12 +24,10 @@ int part1(memory_t program) {
   for (;;) {
     for (auto &computer : computers) {
       std::optional<size_t> addr = computer.run_program(1);
-      if (!addr.has_value())
-        continue;
+      if (!addr.has_value()) continue;
       int64_t x = computer.run_program();
       int64_t y = computer.run_program();
-      if (addr.value() == 255)
-        return y;
+      if (addr.value() == 255) return y;
       computers[addr.value()].queue.push(x);
       computers[addr.value()].queue.push(y);
     }
@@ -50,11 +49,9 @@ int part2(memory_t program) {
   for (;;) {
     bool idle = true;
     for (auto &computer : computers) {
-      if (!computer.queue.empty())
-        idle = false;
+      if (!computer.queue.empty()) idle = false;
       std::optional<size_t> addr = computer.run_program(2);
-      if (!addr.has_value())
-        continue;
+      if (!addr.has_value()) continue;
       idle = false;
       int64_t x = computer.run_program();
       int64_t y = computer.run_program();
@@ -67,8 +64,7 @@ int part2(memory_t program) {
       }
     }
     if (idle) {
-      if (naty == nat_lasty)
-        return nat_lasty;
+      if (naty == nat_lasty) return nat_lasty;
       nat_lasty = naty;
       computers[0].queue.push(natx);
       computers[0].queue.push(naty);

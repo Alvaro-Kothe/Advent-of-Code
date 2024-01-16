@@ -1,12 +1,11 @@
-#include "iostream"
 #include <fstream>
+#include <iostream>
+
 using namespace std;
 int compute_fuel(const int x) { return (x / 3 - 2); }
 int compute_fuel2(const int x) {
   int fuel = compute_fuel(x);
-  if (fuel <= 0) {
-    return 0;
-  }
+  if (fuel <= 0) return 0;
   return fuel + compute_fuel2(fuel);
 }
 

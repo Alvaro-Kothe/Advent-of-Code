@@ -13,7 +13,6 @@ using pair_vec = std::vector<position>;
 
 template <typename T, typename U>
 std::pair<T, U> &operator+=(std::pair<T, U> &l, const std::pair<T, U> &r) {
-
   l.first += r.first;
   l.second += r.second;
   return l;
@@ -48,8 +47,7 @@ std::set<position> count_visible(const position station,
                                  const pair_vec asteroids) {
   std::set<position> seen;
   for (position pos : asteroids) {
-    if (pos == station)
-      continue;
+    if (pos == station) continue;
     position diff_station = pos - station;
     int gcd = std::abs(std::gcd(diff_station.first, diff_station.second));
     seen.insert(diff_station / gcd);
@@ -57,8 +55,8 @@ std::set<position> count_visible(const position station,
   return seen;
 }
 
-std::tuple<int, position, std::set<position>>
-best_station(const pair_vec asteroids) {
+std::tuple<int, position, std::set<position>> best_station(
+    const pair_vec asteroids) {
   std::tuple<int, position, std::set<position>> out;
   int record_visible = -1;
   for (auto station : asteroids) {

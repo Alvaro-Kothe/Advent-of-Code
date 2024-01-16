@@ -28,26 +28,25 @@ memory_t parse_data(std::istream &fh) {
 }
 
 int power(unsigned int a, unsigned int b) {
-  if (b == 0)
-    return 1;
+  if (b == 0) return 1;
   return a * power(a, b - 1);
 }
 
 class IntcodeProgram {
   int get_pos(int i) {
     switch ((program[inst_ptr] / (power(10, i + 1)) % 10)) {
-    case 0:
-      return program[inst_ptr + i];
-    case 1:
-      return inst_ptr + i;
-    case 2:
-      return relative_base + program[inst_ptr + i];
-    default:
-      throw std::runtime_error("Unexpected mode");
+      case 0:
+        return program[inst_ptr + i];
+      case 1:
+        return inst_ptr + i;
+      case 2:
+        return relative_base + program[inst_ptr + i];
+      default:
+        throw std::runtime_error("Unexpected mode");
     }
   }
 
-public:
+ public:
   memory_t program;
   int inst_ptr = 0;
   int relative_base = 0;
@@ -59,49 +58,49 @@ public:
     while (program[inst_ptr] != 99) {
       op_code = program[inst_ptr] % 100;
       switch (op_code) {
-      case 1:
-        ow = get_pos(3);
-        program[ow] = program[get_pos(1)] + program[get_pos(2)];
-        inst_ptr += 4;
-        break;
-      case 2:
-        ow = get_pos(3);
-        program[ow] = program[get_pos(1)] * program[get_pos(2)];
-        inst_ptr += 4;
-        break;
-      case 3:
-        ow = get_pos(1);
-        program[ow] = input;
-        inst_ptr += 2;
-        break;
-      case 4:
-        ow = get_pos(1);
-        inst_ptr += 2;
-        return program[ow];
-      case 5:
-        inst_ptr =
-            program[get_pos(1)] != 0 ? program[get_pos(2)] : inst_ptr + 3;
-        break;
-      case 6:
-        inst_ptr =
-            program[get_pos(1)] == 0 ? program[get_pos(2)] : inst_ptr + 3;
-        break;
-      case 7:
-        ow = get_pos(3);
-        program[ow] = program[get_pos(1)] < program[get_pos(2)] ? 1 : 0;
-        inst_ptr += 4;
-        break;
-      case 8:
-        ow = get_pos(3);
-        program[ow] = program[get_pos(1)] == program[get_pos(2)] ? 1 : 0;
-        inst_ptr += 4;
-        break;
-      case 9:
-        relative_base += program[get_pos(1)];
-        inst_ptr += 2;
-        break;
-      default:
-        return -2;
+        case 1:
+          ow = get_pos(3);
+          program[ow] = program[get_pos(1)] + program[get_pos(2)];
+          inst_ptr += 4;
+          break;
+        case 2:
+          ow = get_pos(3);
+          program[ow] = program[get_pos(1)] * program[get_pos(2)];
+          inst_ptr += 4;
+          break;
+        case 3:
+          ow = get_pos(1);
+          program[ow] = input;
+          inst_ptr += 2;
+          break;
+        case 4:
+          ow = get_pos(1);
+          inst_ptr += 2;
+          return program[ow];
+        case 5:
+          inst_ptr =
+              program[get_pos(1)] != 0 ? program[get_pos(2)] : inst_ptr + 3;
+          break;
+        case 6:
+          inst_ptr =
+              program[get_pos(1)] == 0 ? program[get_pos(2)] : inst_ptr + 3;
+          break;
+        case 7:
+          ow = get_pos(3);
+          program[ow] = program[get_pos(1)] < program[get_pos(2)] ? 1 : 0;
+          inst_ptr += 4;
+          break;
+        case 8:
+          ow = get_pos(3);
+          program[ow] = program[get_pos(1)] == program[get_pos(2)] ? 1 : 0;
+          inst_ptr += 4;
+          break;
+        case 9:
+          relative_base += program[get_pos(1)];
+          inst_ptr += 2;
+          break;
+        default:
+          return -2;
       }
     }
     return -1;
@@ -145,14 +144,10 @@ void display(std::vector<std::pair<int, int>> map) {
   int ymin = xmin;
   int ymax = xmax;
   for (auto [x, y] : map) {
-    if (xmin > x)
-      xmin = x;
-    if (xmax < x)
-      xmax = x;
-    if (ymin > y)
-      ymin = y;
-    if (ymax < y)
-      ymax = y;
+    if (xmin > x) xmin = x;
+    if (xmax < x) xmax = x;
+    if (ymin > y) ymin = y;
+    if (ymax < y) ymax = y;
   }
   for (int y = ymin; y <= ymax; ++y) {
     for (int x = xmin; x <= xmax; ++x) {
@@ -170,7 +165,7 @@ void part2(memory_t program) {
   int dx = 0, dy = -1;
   int tmp;
   std::vector<std::pair<int, int>> white_panels;
-  white_panels.reserve(128); // prevents malloc error
+  white_panels.reserve(128);  // prevents malloc error
   auto get_it = [&x, &y, &white_panels]() -> auto {
     return std::find(white_panels.begin(), white_panels.end(),
                      std::make_pair(x, y));

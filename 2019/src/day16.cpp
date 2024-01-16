@@ -33,8 +33,7 @@ int get_pattern(uint32_t idx, uint32_t n_repeat) {
   n_repeat++;
   idx %= pattern.size() * n_repeat;
   for (uint32_t i = 0; i < pattern.size(); ++i) {
-    if (idx < (i + 1) * n_repeat)
-      return pattern[i];
+    if (idx < (i + 1) * n_repeat) return pattern[i];
   }
   throw std::runtime_error("Bug");
 }
@@ -96,8 +95,7 @@ int main(int argc, char **argv) {
   }
   const auto digits = parse_data(fh);
   auto p1_digits = digits;
-  for (int i = 0; i < 100; ++i)
-    p1_digits = apply_phase(p1_digits);
+  for (int i = 0; i < 100; ++i) p1_digits = apply_phase(p1_digits);
   std::cout << "Part1: " << extract_digits(p1_digits, 8) << std::endl;
   std::cout << "Part2: " << part2(digits) << std::endl;
   return 0;

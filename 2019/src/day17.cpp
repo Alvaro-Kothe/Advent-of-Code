@@ -1,5 +1,3 @@
-#include "intcode.h"
-#include "utils.h"
 #include <array>
 #include <cstdint>
 #include <fstream>
@@ -7,6 +5,9 @@
 #include <ostream>
 #include <set>
 #include <string>
+
+#include "intcode.h"
+#include "utils.h"
 
 using position_t = std::pair<int, int>;
 std::string ascii_program(memory_t program) {
@@ -35,32 +36,32 @@ Grid parse_grid(const std::string grid_str) {
   int i = 0, j = 0;
   for (char ch : grid_str) {
     switch (ch) {
-    case '\n':
-      i++;
-      grid.ncol = j;
-      j = -1; // it will be incremented to 0 after the switch
-      break;
-    case '#':
-      grid.scafold.insert({i, j});
-      break;
-    case '^':
-      grid.robot.pos = {i, j};
-      grid.robot.dir = {-1, 0};
-      break;
-    case 'v':
-      grid.robot.pos = {i, j};
-      grid.robot.dir = {1, 0};
-      break;
-    case '>':
-      grid.robot.pos = {i, j};
-      grid.robot.dir = {0, 1};
-      break;
-    case '<':
-      grid.robot.pos = {i, j};
-      grid.robot.dir = {0, -1};
-      break;
-    default:
-      break;
+      case '\n':
+        i++;
+        grid.ncol = j;
+        j = -1;  // it will be incremented to 0 after the switch
+        break;
+      case '#':
+        grid.scafold.insert({i, j});
+        break;
+      case '^':
+        grid.robot.pos = {i, j};
+        grid.robot.dir = {-1, 0};
+        break;
+      case 'v':
+        grid.robot.pos = {i, j};
+        grid.robot.dir = {1, 0};
+        break;
+      case '>':
+        grid.robot.pos = {i, j};
+        grid.robot.dir = {0, 1};
+        break;
+      case '<':
+        grid.robot.pos = {i, j};
+        grid.robot.dir = {0, -1};
+        break;
+      default:
+        break;
     }
     j++;
   }
@@ -74,24 +75,22 @@ uint32_t part1(const std::set<position_t> scafolds) {
   uint32_t out = 0;
   auto is_intersection = [&scafolds](const position_t pos) -> bool {
     for (auto dir : directions) {
-      if (scafolds.find(pos + dir) == scafolds.end())
-        return false;
+      if (scafolds.find(pos + dir) == scafolds.end()) return false;
     }
     return true;
   };
   for (auto scafold : scafolds) {
-    if (is_intersection(scafold))
-      out += scafold.first * scafold.second;
+    if (is_intersection(scafold)) out += scafold.first * scafold.second;
   }
   return out;
 }
 
 position_t turn(const position_t cur_dir, const char turn_dir) {
   switch (turn_dir) {
-  case 'L':
-    return {-cur_dir.second, cur_dir.first};
-  case 'R':
-    return {cur_dir.second, -cur_dir.first};
+    case 'L':
+      return {-cur_dir.second, cur_dir.first};
+    case 'R':
+      return {cur_dir.second, -cur_dir.first};
   }
   throw "Invalid direction";
 }
@@ -107,7 +106,7 @@ std::vector<std::string> get_path(Grid grid) {
   auto valid_move = [&grid]() -> bool {
     return grid.scafold.find(grid.robot.move()) != grid.scafold.end();
   };
-  if (!valid_move()) { // fix robot direction
+  if (!valid_move()) {  // fix robot direction
     for (char dir : directions) {
       auto old_dir = grid.robot.dir;
       grid.robot.dir = turn(grid.robot.dir, dir);
@@ -126,7 +125,7 @@ std::vector<std::string> get_path(Grid grid) {
     }
     path.push_back(std::to_string(n_moves));
     bool dead_end = true;
-    for (char dir : directions) { // arrived at the end, must turn.
+    for (char dir : directions) {  // arrived at the end, must turn.
       auto old_dir = grid.robot.dir;
       grid.robot.dir = turn(grid.robot.dir, dir);
       if (valid_move()) {
@@ -136,8 +135,7 @@ std::vector<std::string> get_path(Grid grid) {
       } else
         grid.robot.dir = old_dir;
     }
-    if (dead_end)
-      return path;
+    if (dead_end) return path;
   }
 }
 std::string join(const std::vector<std::string> vec,
@@ -145,8 +143,7 @@ std::string join(const std::vector<std::string> vec,
   std::string out;
   for (auto s = vec.begin(); s != vec.end(); ++s) {
     out += *s;
-    if (s != vec.end() - 1)
-      out += separator;
+    if (s != vec.end() - 1) out += separator;
   }
   return out;
 }
@@ -165,14 +162,14 @@ int main(int argc, char **argv) {
   std::cout << grid_str;
   auto path = get_path(grid);
   std::cout << "Path: " << join(path, ",") << '\n';
-  std::string path_parts = "A,A,C,B,C,B,C,A,B,A\n" // main
-                           "R,8,L,12,R,8\n"        // A
-                           "L,12,L,12,L,10,R,10\n" // B
-                           "L,10,L,10,R,8\n"       // C
-                           "n\n";                  // no feed
+  std::string path_parts =
+      "A,A,C,B,C,B,C,A,B,A\n"  // main
+      "R,8,L,12,R,8\n"         // A
+      "L,12,L,12,L,10,R,10\n"  // B
+      "L,10,L,10,R,8\n"        // C
+      "n\n";                   // no feed
   std::queue<int64_t> input_queue;
-  for (char ch : path_parts)
-    input_queue.push(ch);
+  for (char ch : path_parts) input_queue.push(ch);
   Intcode::IntcodeProgram<int64_t> intcode(program);
   intcode.memory[0] = 2;
   intcode.queue = input_queue;

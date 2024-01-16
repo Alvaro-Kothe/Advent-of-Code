@@ -14,8 +14,8 @@ using recipe_map_t = std::unordered_map<
     std::string,
     std::pair<uint32_t, std::vector<std::pair<uint32_t, std::string>>>>;
 
-std::vector<std::pair<uint32_t, std::string>>
-parse_ractants(std::string reactants_str) {
+std::vector<std::pair<uint32_t, std::string>> parse_ractants(
+    std::string reactants_str) {
   std::vector<std::pair<uint32_t, std::string>> reactants;
   reactants_str.erase(
       std::remove(reactants_str.begin(), reactants_str.end(), ','),
@@ -101,12 +101,10 @@ int part2(recipe_map_t recipe) {
   uint64_t required_ore = 0;
   while (ore_stack > 0) {
     uint64_t fuel_lower_limit = ore_stack / ore_per_fuel;
-    if (fuel_lower_limit == 0)
-      fuel_lower_limit = 1;
+    if (fuel_lower_limit == 0) fuel_lower_limit = 1;
     required_ore = get_required_ore(recipe, deposit, fuel_lower_limit);
     ore_stack -= required_ore;
-    if (ore_stack < 0)
-      return produced_fuel;
+    if (ore_stack < 0) return produced_fuel;
     produced_fuel += fuel_lower_limit;
   }
   return produced_fuel;

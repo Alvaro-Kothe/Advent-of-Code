@@ -1,4 +1,5 @@
 #include "intcode.h"
+
 #include <iostream>
 
 memory_t Intcode::parse_data(std::istream &fh) {

@@ -29,10 +29,8 @@ std::array<Moon, 4> parse_data(std::istream &fh) {
 }
 
 int sign(int x) {
-  if (x > 0)
-    return 1;
-  if (x < 0)
-    return -1;
+  if (x > 0) return 1;
+  if (x < 0) return -1;
   return 0;
 }
 
@@ -98,8 +96,7 @@ std::array<int, 3> get_cycle(std::array<Moon, 4> moons) {
 }
 
 uint64_t gcd(uint64_t a, uint64_t b) {
-  if (b == 0)
-    return a;
+  if (b == 0) return a;
   return gcd(b, a % b);
 }
 

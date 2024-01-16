@@ -15,22 +15,22 @@ map<pair<int, int>, int> parse_data(const string line) {
   std::stringstream ss(line);
   while (ss >> dir >> steps >> c) {
     switch (dir) {
-    case 'U':
-      dx = -1;
-      dy = 0;
-      break;
-    case 'D':
-      dx = 1;
-      dy = 0;
-      break;
-    case 'L':
-      dx = 0;
-      dy = -1;
-      break;
-    case 'R':
-      dx = 0;
-      dy = 1;
-      break;
+      case 'U':
+        dx = -1;
+        dy = 0;
+        break;
+      case 'D':
+        dx = 1;
+        dy = 0;
+        break;
+      case 'L':
+        dx = 0;
+        dy = -1;
+        break;
+      case 'R':
+        dx = 0;
+        dy = 1;
+        break;
     }
 
     for (int i = 0; i < steps; i++) {

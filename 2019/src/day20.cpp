@@ -14,16 +14,18 @@
 #include <vector>
 
 using position_t = std::pair<int, int>;
-template <> struct std::hash<position_t> {
+template <>
+struct std::hash<position_t> {
   std::size_t operator()(const position_t &pos) const noexcept {
     std::size_t h1 = std::hash<int>{}(pos.first);
     std::size_t h2 = std::hash<int>{}(pos.second);
     return h1 ^ (h2 << 1);
   }
 };
-template <> struct std::hash<std::pair<position_t, size_t>> {
-  std::size_t
-  operator()(const std::pair<position_t, size_t> &h) const noexcept {
+template <>
+struct std::hash<std::pair<position_t, size_t>> {
+  std::size_t operator()(
+      const std::pair<position_t, size_t> &h) const noexcept {
     std::size_t h1 = std::hash<position_t>{}(h.first);
     std::size_t h2 = std::hash<size_t>{}(h.second);
     return h1 ^ (h2 << 1);
@@ -84,8 +86,7 @@ Grid parse_data(std::istream &fh) {
       if (dot_pos.first < 0 &&
           grid.open_passages.find(np) != grid.open_passages.end())
         dot_pos = np;
-      if (str.size() == 2 && dot_pos.first >= 0)
-        break;
+      if (str.size() == 2 && dot_pos.first >= 0) break;
     }
     char_positions.erase(el);
     grid.portal_pos2str[dot_pos] = str;
@@ -108,8 +109,7 @@ size_t bfs(Grid grid, position_t source, position_t target) {
   while (!queue.empty()) {
     auto [pos, dst] = queue.front();
     queue.pop();
-    if (pos == target)
-      return dst;
+    if (pos == target) return dst;
     for (auto dir : directions) {
       position_t next_pos = pos + dir;
       if (visited.find(next_pos) != visited.end() ||
@@ -139,10 +139,8 @@ size_t part2(Grid grid) {
     auto [cur_state, dst] = queue.front();
     auto [pos, depth] = cur_state;
     queue.pop();
-    if (pos == target && depth == 0)
-      return dst;
-    if (visited.find(cur_state) != visited.end())
-      continue;
+    if (pos == target && depth == 0) return dst;
+    if (visited.find(cur_state) != visited.end()) continue;
     visited.insert(cur_state);
     for (auto dir : directions) {
       auto next_pos = pos + dir;
@@ -152,9 +150,9 @@ size_t part2(Grid grid) {
           it != grid.portal_pos2pos.end()) {
         if (3 < next_pos.first && (size_t)next_pos.first < grid.nrow - 3 &&
             3 < next_pos.second &&
-            (size_t)next_pos.second < grid.ncol - 3) // Inner loop
+            (size_t)next_pos.second < grid.ncol - 3)  // Inner loop
           queue.push({{it->second, depth + 1}, dst + 2});
-        else if (depth > 0) // outer loop
+        else if (depth > 0)  // outer loop
           queue.push({{it->second, depth - 1}, dst + 2});
       }
       queue.push({{next_pos, depth}, dst + 1});

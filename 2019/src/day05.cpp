@@ -26,49 +26,49 @@ void run_program(vector<int> vint, int input) {
   while (vint[inst_ptr] != 99) {
     op_code = vint[inst_ptr] % 100;
     switch (op_code) {
-    case 1:
-      update_values(vint, inst_ptr, v1, v2);
-      ow = vint[inst_ptr + 3];
-      vint[ow] = v1 + v2;
-      inst_ptr += 4;
-      break;
-    case 2:
-      update_values(vint, inst_ptr, v1, v2);
-      ow = vint[inst_ptr + 3];
-      vint[ow] = v1 * v2;
-      inst_ptr += 4;
-      break;
-    case 3:
-      ow = vint[inst_ptr + 1];
-      vint[ow] = input;
-      inst_ptr += 2;
-      break;
-    case 4:
-      cout << vint[vint[inst_ptr + 1]] << endl;
-      inst_ptr += 2;
-      break;
-    case 5:
-      update_values(vint, inst_ptr, v1, v2);
-      inst_ptr = v1 != 0 ? v2 : inst_ptr + 3;
-      break;
-    case 6:
-      update_values(vint, inst_ptr, v1, v2);
-      inst_ptr = v1 == 0 ? v2 : inst_ptr + 3;
-      break;
-    case 7:
-      update_values(vint, inst_ptr, v1, v2);
-      ow = vint[inst_ptr + 3];
-      vint[ow] = v1 < v2 ? 1 : 0;
-      inst_ptr += 4;
-      break;
-    case 8:
-      update_values(vint, inst_ptr, v1, v2);
-      ow = vint[inst_ptr + 3];
-      vint[ow] = v1 == v2 ? 1 : 0;
-      inst_ptr += 4;
-      break;
-    default:
-      throw std::runtime_error("Bad operator");
+      case 1:
+        update_values(vint, inst_ptr, v1, v2);
+        ow = vint[inst_ptr + 3];
+        vint[ow] = v1 + v2;
+        inst_ptr += 4;
+        break;
+      case 2:
+        update_values(vint, inst_ptr, v1, v2);
+        ow = vint[inst_ptr + 3];
+        vint[ow] = v1 * v2;
+        inst_ptr += 4;
+        break;
+      case 3:
+        ow = vint[inst_ptr + 1];
+        vint[ow] = input;
+        inst_ptr += 2;
+        break;
+      case 4:
+        cout << vint[vint[inst_ptr + 1]] << endl;
+        inst_ptr += 2;
+        break;
+      case 5:
+        update_values(vint, inst_ptr, v1, v2);
+        inst_ptr = v1 != 0 ? v2 : inst_ptr + 3;
+        break;
+      case 6:
+        update_values(vint, inst_ptr, v1, v2);
+        inst_ptr = v1 == 0 ? v2 : inst_ptr + 3;
+        break;
+      case 7:
+        update_values(vint, inst_ptr, v1, v2);
+        ow = vint[inst_ptr + 3];
+        vint[ow] = v1 < v2 ? 1 : 0;
+        inst_ptr += 4;
+        break;
+      case 8:
+        update_values(vint, inst_ptr, v1, v2);
+        ow = vint[inst_ptr + 3];
+        vint[ow] = v1 == v2 ? 1 : 0;
+        inst_ptr += 4;
+        break;
+      default:
+        throw std::runtime_error("Bad operator");
     }
   }
 }
