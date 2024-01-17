@@ -15,7 +15,11 @@ function intersect(a, b) {
 }
 
 function arraysIntersect(str) {
-  let answers = str.split("\n").map((x) => x.split(""));
+  let answers = str
+    .split("\n")
+    .filter(Boolean)
+    .map((x) => x.split(""));
+  console.log(answers);
 
   const common_answers = answers.reduce(
     intersect,
@@ -25,8 +29,9 @@ function arraysIntersect(str) {
   return common_answers.length;
 }
 
+const filename_ = process.argv[2] || "input/day06.txt";
 const data = fs
-  .readFileSync("input/day06.txt")
+  .readFileSync(filename_)
   .toString()
   .split("\n\n")
   .filter(Boolean);

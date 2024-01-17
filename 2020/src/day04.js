@@ -9,8 +9,10 @@ function isSubset(subset, set) {
   return true;
 }
 
+const filename_ = process.argv[2] || "input/day04.txt";
+
 const data = fs
-  .readFileSync("input/day04.txt")
+  .readFileSync(filename_)
   .toString()
   .split("\n\n")
   .filter(Boolean);
@@ -70,7 +72,7 @@ for (let i = 0; i < data.length; i++) {
           present_fields2.add(key);
         break;
       case "pid":
-        /\d{9}/.test(value) && present_fields2.add(key);
+        /^\d{9}$/.test(value) && present_fields2.add(key);
         break;
     }
   }
