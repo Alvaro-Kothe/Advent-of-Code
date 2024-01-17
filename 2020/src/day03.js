@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 const data = fs
-  .readFileSync("input.txt")
+  .readFileSync("input/day03.txt")
   .toString()
   .split("\n")
   .filter(Boolean);
@@ -30,6 +30,6 @@ for (let i = 0; i < slopes.length; i++) {
   }
   prod *= ntrees;
 
-  console.log(ntrees);
+  if (slope[0] === 3 && slope[1] === 1) console.log("Part1: ", ntrees);
 }
-console.log(prod);
+console.log("Part2: ", prod);

@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 const data = fs
-  .readFileSync("input.txt")
+  .readFileSync("input/day08.txt")
   .toString()
   .split("\n")
   .filter(Boolean)

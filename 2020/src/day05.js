@@ -10,7 +10,7 @@ function partition(zone, lower, upper) {
 }
 
 const data = fs
-  .readFileSync("input.txt")
+  .readFileSync("input/day05.txt")
   .toString()
   .split("\n")
   .filter(Boolean);
@@ -21,7 +21,7 @@ const reRow = /[FB]/g;
 const reCol = /[RL]/g;
 
 let missing_seats = new Set();
-for (let i = 10; i < 117; i++) {
+for (let i = 10; i < 100; i++) {
   for (let j = 0; j < 7; j++) {
     missing_seats.add(i * 8 + j);
   }

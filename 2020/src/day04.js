@@ -10,7 +10,7 @@ function isSubset(subset, set) {
 }
 
 const data = fs
-  .readFileSync("input.txt")
+  .readFileSync("input/day04.txt")
   .toString()
   .split("\n\n")
   .filter(Boolean);

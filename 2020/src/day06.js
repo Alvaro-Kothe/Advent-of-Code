@@ -26,7 +26,7 @@ function arraysIntersect(str) {
 }
 
 const data = fs
-  .readFileSync("input.txt")
+  .readFileSync("input/day06.txt")
   .toString()
   .split("\n\n")
   .filter(Boolean);
