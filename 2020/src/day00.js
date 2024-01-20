@@ -7,3 +7,6 @@ const data = fs
   .split("\n")
   .filter(Boolean)
   .map(Number);
+
+console.log("Part1: ", -1);
+console.log("Part2: ", -1);
