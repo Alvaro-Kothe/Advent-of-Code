@@ -61,7 +61,7 @@ fn get_common_letters<R: BufRead>(
 }
 
 fn main() {
-    let default_file = "input/day00.txt";
+    let default_file = Some("input/day02.txt");
 
     let reader = aoc_lib::create_reader(default_file);
     let mut twos = 0;

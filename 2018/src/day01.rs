@@ -31,7 +31,7 @@ fn part2(data: Vec<i32>) -> i32 {
 fn main() {
     let default_file = "input/day01.txt";
 
-    let reader = aoc_lib::create_reader(default_file);
+    let reader = aoc_lib::create_reader(Some(default_file));
     let data = parse_data(reader);
 
     let p1: i32 = data.iter().sum();
