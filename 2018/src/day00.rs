@@ -18,9 +18,9 @@ fn parse_data<R: BufRead>(reader: R) -> Vec<i32> {
 }
 
 fn main() {
-    let default_file = "input/day00.txt";
+    let _default_file = Some("input/day00.txt");
 
-    let reader = aoc_lib::create_reader(default_file);
+    let reader = aoc_lib::create_reader(None);
     let data = parse_data(reader);
 
     println!("Part1: {}", -1);
