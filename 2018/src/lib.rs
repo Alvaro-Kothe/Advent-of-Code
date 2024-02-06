@@ -15,3 +15,12 @@ pub fn create_reader(default_file: Option<&str>) -> Box<dyn BufRead> {
         None => Box::new(std::io::BufReader::new(io::stdin())),
     }
 }
+
+pub fn print_grid(grid: &Vec<Vec<char>>) {
+    for row in grid {
+        for ch in row {
+            print!("{}", ch);
+        }
+        println!();
+    }
+}
