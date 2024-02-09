@@ -1,4 +1,4 @@
-use std::io::BufRead;
+use std::{cmp::Reverse, collections::BinaryHeap, io::BufRead};
 
 type Position = (i32, i32, i32);
 
@@ -6,7 +6,7 @@ fn distance(point1: Position, point2: Position) -> u32 {
     point1.0.abs_diff(point2.0) + point1.1.abs_diff(point2.1) + point1.2.abs_diff(point2.2)
 }
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 struct Nanobot {
     pos: Position,
     signal_radius: u32,
@@ -51,12 +51,37 @@ fn part1(bots: &[Nanobot]) -> usize {
     count_in_range(strongest, bots)
 }
 
-fn main() {
-    let _default_file = Some("input/day00.txt");
+fn part2(bots: &[Nanobot]) -> u32 {
+    let mut queue = BinaryHeap::new();
+    for bot in bots {
+        let distance = distance(bot.pos, (0, 0, 0));
+        if distance < bot.signal_radius {
+            queue.push(Reverse((0, 1)))
+        } else {
+            queue.push(Reverse((distance - bot.signal_radius, 1)))
+        }
+        queue.push(Reverse((distance + bot.signal_radius + 1, -1)));
+    }
+    let mut counter = 0;
+    let mut result = 0;
+    let mut max_count = 0;
 
-    let reader = aoc_lib::create_reader(None);
+    while let Some(Reverse((distance, increment))) = queue.pop() {
+        counter += increment;
+        if counter > max_count {
+            max_count = counter;
+            result = distance;
+        }
+    }
+    result
+}
+
+fn main() {
+    let _default_file = Some("tst");
+
+    let reader = aoc_lib::create_reader(_default_file);
     let data = parse_data(reader);
 
     println!("Part1: {}", part1(&data));
-    println!("Part2: {}", -1);
+    println!("Part2: {}", part2(&data));
 }
