@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.27.7)
+cmake_minimum_required(VERSION 3.22.1)
 project(AoC-2017 C)
 
 add_compile_options(-Wall -Wextra -Wpedantic)
@@ -11,3 +11,4 @@ add_executable(day04 src/day04.c)
 add_executable(day05 src/day05.c)
 add_executable(day06 src/day06.c)
 add_executable(day07 src/day07.c)
+add_executable(day08 src/day08.c)
