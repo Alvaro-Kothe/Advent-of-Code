@@ -7,7 +7,7 @@ BUILD_DIR=./build
 all: compile
 
 build:
-	$(CMAKE) -S . -B $(BUILD_DIR)
+	$(CMAKE) -DCMAKE_BUILD_TYPE=Debug -S . -B $(BUILD_DIR)
 
 compile: build
 	make -C $(BUILD_DIR)

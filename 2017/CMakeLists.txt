@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.22.1)
 project(AoC-2017 C)
 
 add_compile_options(-Wall -Wextra -Wpedantic)
-set(CMAKE_BUILD_TYPE Debug)
 
 add_executable(day01 src/day01.c)
 add_executable(day02 src/day02.c)
@@ -13,3 +12,4 @@ add_executable(day06 src/day06.c)
 add_executable(day07 src/day07.c)
 add_executable(day08 src/day08.c)
 add_executable(day09 src/day09.c)
+add_executable(day10 src/day10.c)
