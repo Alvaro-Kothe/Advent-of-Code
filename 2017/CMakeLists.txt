@@ -26,5 +26,6 @@ add_executable(day20 src/day20.c)
 add_executable(day21 src/day21.c)
 add_executable(day22 src/day22.c)
 add_executable(day23 src/day23.c)
+add_executable(day24 src/day24.c)
 
 target_link_libraries(day20 m)
