@@ -43,6 +43,10 @@ Node *insert(Hashtable *ht, int key[2], int value) {
     ht->table[index].head = new_node;
   } else {
     Node *temp = ht->table[index].head;
+    if (memcmp(key, temp->key, sizeof(int) * 2) == 0) {
+      new_node->next = temp->next;
+      return temp;
+    }
     while (temp->next != NULL) {
       if (memcmp(key, temp->key, sizeof(int) * 2) == 0) {
         new_node->next = temp->next;

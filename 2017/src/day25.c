@@ -57,6 +57,10 @@ Node *insert(Hashtable *ht, int key, int value) {
     ht->table[index].head = new_node;
   } else {
     Node *temp = ht->table[index].head;
+    if (temp->key == key) {
+      new_node->next = temp->next;
+      return temp;
+    }
     while (temp->next != NULL) {
       if (temp->key == key) {
         new_node->next = temp->next;
