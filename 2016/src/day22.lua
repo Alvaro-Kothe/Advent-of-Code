@@ -16,7 +16,7 @@ local function get_neighbors(x, y)
 
   for _, dir in ipairs(directions) do
     local nx, ny = x + dir[1], y + dir[2]
-    table.insert(neighbors, nx, ny)
+    table.insert(neighbors, { nx, ny })
   end
 
   return neighbors
@@ -37,6 +37,61 @@ local function count_viable_pairs(node_list)
     end
   end
   return result
+end
+
+local function move_empty(start, node_map, cond)
+  assert(start)
+  local queue = { start }
+  local distances = { [start.x] = { [start.y] = 0 } }
+
+  while #queue > 0 do
+    local cur_node = table.remove(queue, 1)
+    if cond(cur_node) then
+      return cur_node, distances[cur_node.x][cur_node.y]
+    end
+
+    local neighbors = get_neighbors(cur_node.x, cur_node.y)
+    for _, nei_pos in ipairs(neighbors) do
+      local nx, ny = nei_pos[1], nei_pos[2]
+      if
+        node_map[nx]
+        and node_map[nx][ny]
+        and not (distances[nx] and distances[nx][ny])
+        and node_map[nx][ny].used <= cur_node.size
+      then
+        distances[nx] = distances[nx] or {}
+        distances[nx][ny] = distances[cur_node.x][cur_node.y] + 1
+        table.insert(queue, node_map[nx][ny])
+      end
+    end
+  end
+end
+
+local function find(node_map, cond)
+  for _, row in pairs(node_map) do
+    for _, node in pairs(row) do
+      if cond(node) then
+        return node
+      end
+    end
+  end
+end
+
+local function part2(node_map, target_x)
+  local empty_node = find(node_map, function(node)
+    return node.used == 0
+  end)
+
+  local empty_node_top, steps = move_empty(empty_node, node_map, function(node)
+    return node.x ~= target_x and node.y == 0
+  end)
+
+  -- Each time takes 4 steps to move the empty space to the front of the node
+  -- so takes 5 steps to move the target to the left.
+  -- The target must go to the left (target_x - 2) times.
+  -- The first time it goes to the left is when the empty node is at the top,
+  -- which takes target_x - empty_node_x_pos steps
+  return steps + (5 * (target_x - 1)) + (target_x - empty_node_top.x)
 end
 
 local max_x = 0
@@ -64,11 +119,5 @@ local p1 = count_viable_pairs(node_list)
 
 print("Part1: " .. p1)
 
--- Part 2
-
-local function move_data(src, dst)
-  assert(is_viable_pair(src, dst))
-  dst.used = dst.used + src.used
-  src.avail = src.avail + src.used
-  src.used = 0
-end
+local p2 = part2(node_map, max_x)
+print("Part2: " .. p2)
