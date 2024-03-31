@@ -33,8 +33,7 @@ let get_empty_rows grid =
   let empty_rows = ref [] in
   Array.iteri
     (fun i row ->
-      if Array.for_all (fun ch -> ch = '.') row
-      then empty_rows := i :: !empty_rows)
+      if Array.for_all (fun ch -> ch = '.') row then empty_rows := i :: !empty_rows)
     grid;
   List.rev !empty_rows
 ;;

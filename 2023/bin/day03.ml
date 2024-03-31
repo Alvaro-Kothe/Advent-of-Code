@@ -84,7 +84,9 @@ let get_adj_non_adj_numbers (symbol : symbol) (numbers : Number.t list) =
   let rec aux adj non_adj = function
     | [] -> adj, non_adj
     | h :: t ->
-      if is_adjacent symbol h then aux (h :: adj) non_adj t else aux adj (h :: non_adj) t
+      if is_adjacent symbol h
+      then aux (h :: adj) non_adj t
+      else aux adj (h :: non_adj) t
   in
   aux [] [] numbers
 ;;
@@ -95,7 +97,9 @@ let get_valid_numbers (symbols : symbol list) (numbers : Number.t list) =
     | [] -> ns
     | h :: t ->
       let adj, non_adj = get_adj_non_adj_numbers h num in
-      let new_set = List.fold adj ~init:ns ~f:(fun acc elem -> NumberSet.add elem acc) in
+      let new_set =
+        List.fold adj ~init:ns ~f:(fun acc elem -> NumberSet.add elem acc)
+      in
       aux new_set non_adj t
   in
   aux number_set numbers symbols

@@ -23,10 +23,7 @@ let match_rule rule_str =
     let op = rule_str.[1] in
     let cond = if op = '>' then fun x -> x > value else fun x -> x < value in
     let target =
-      String.sub
-        rule_str
-        (colon_pos + 1)
-        (String.length rule_str - colon_pos - 1)
+      String.sub rule_str (colon_pos + 1) (String.length rule_str - colon_pos - 1)
     in
     Rule { part = rule_str.[0]; cond; value; op; target })
   else Default rule_str
@@ -49,8 +46,7 @@ let parse_part str =
   let group = Re.exec regex str in
   let rec aux = function
     | [] -> []
-    | h :: t ->
-      (h.[0], int_of_string (String.sub h 2 (String.length h - 2))) :: aux t
+    | h :: t -> (h.[0], int_of_string (String.sub h 2 (String.length h - 2))) :: aux t
   in
   Re.Group.get group 1 |> String.split_on_char ',' |> aux
 ;;
@@ -106,8 +102,7 @@ let verify_part parts workflows =
 let () =
   let workflows, parts = parse_data data in
   List.fold_left
-    (fun acc part ->
-      acc + if verify_part part workflows then sum_values part else 0)
+    (fun acc part -> acc + if verify_part part workflows then sum_values part else 0)
     0
     parts
   |> Printf.printf "Part1: %d\n"
@@ -152,9 +147,7 @@ let verify_workflows rng_x rng_m rng_a rng_s workflows =
     match queue with
     | [] -> acc
     | ("A", (xl, xu), (ml, mu), (al, au), (sl, su)) :: rest ->
-      let count =
-        (xu - xl + 1) * (mu - ml + 1) * (au - al + 1) * (su - sl + 1)
-      in
+      let count = (xu - xl + 1) * (mu - ml + 1) * (au - al + 1) * (su - sl + 1) in
       aux (acc + count) rest
     | ("R", _, _, _, _) :: rest -> aux acc rest
     | (cur, x, m, a, s) :: rest ->

@@ -15,9 +15,7 @@ module PriotityQueue = struct
     match pq with
     | [] -> [ prio, value ]
     | (p, v) :: rest ->
-      if prio <= p
-      then (prio, value) :: pq
-      else (p, v) :: insert rest prio value
+      if prio <= p then (prio, value) :: pq else (p, v) :: insert rest prio value
   ;;
 
   let pop = function

@@ -1,3 +1,4 @@
 (library
+ (public_name aoc2023)
  (name advent)
  (libraries re))

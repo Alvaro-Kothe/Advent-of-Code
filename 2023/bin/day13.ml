@@ -43,9 +43,7 @@ let count_diffs a b =
   let len = Array.length a in
   let _ = assert (Array.length b = len) in
   let rec aux i acc =
-    if i >= len
-    then acc
-    else aux (i + 1) (if a.(i) = b.(i) then acc else acc + 1)
+    if i >= len then acc else aux (i + 1) (if a.(i) = b.(i) then acc else acc + 1)
   in
   aux 0 0
 ;;
@@ -71,14 +69,9 @@ let get_split ?(smudge = 0) matrix =
 
 let () =
   let grids = parse_data data in
-  let row_score =
-    List.fold_left (fun acc matrix -> acc + get_split matrix) 0 grids
-  in
+  let row_score = List.fold_left (fun acc matrix -> acc + get_split matrix) 0 grids in
   let col_score =
-    List.fold_left
-      (fun acc matrix -> acc + get_split (transpose matrix))
-      0
-      grids
+    List.fold_left (fun acc matrix -> acc + get_split (transpose matrix)) 0 grids
   in
   Format.printf "Part1: %d\n" ((100 * row_score) + col_score)
 ;;

@@ -49,7 +49,9 @@ let match_map seed maps =
   let rec aux src = function
     | [] -> src
     | h :: t ->
-      if h.src <= src && src <= h.src + h.rng - 1 then h.dst - h.src + src else aux src t
+      if h.src <= src && src <= h.src + h.rng - 1
+      then h.dst - h.src + src
+      else aux src t
   in
   aux seed maps
 ;;

@@ -1,1 +1,8 @@
-(lang dune 3.12)
+(lang dune 3.14)
+
+(generate_opam_files true)
+
+(package
+ (name aoc2023)
+ (depends re core)
+ )

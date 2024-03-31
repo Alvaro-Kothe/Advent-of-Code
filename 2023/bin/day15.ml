@@ -52,8 +52,7 @@ let fill_boxes strs =
       let box = compute_hash operation.label in
       if operation.value = -1
       then (
-        boxes.(box)
-        <- List.filter (fun x -> x.label <> operation.label) boxes.(box);
+        boxes.(box) <- List.filter (fun x -> x.label <> operation.label) boxes.(box);
         aux t)
       else (
         boxes.(box) <- equal_op operation boxes.(box);
@@ -77,6 +76,4 @@ let compute_power boxes =
   aux 0 (Array.length boxes - 1)
 ;;
 
-let () =
-  parse_data data |> fill_boxes |> compute_power |> Format.printf "Part2: %d\n"
-;;
+let () = parse_data data |> fill_boxes |> compute_power |> Format.printf "Part2: %d\n"

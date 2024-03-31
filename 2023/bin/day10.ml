@@ -103,6 +103,5 @@ let () =
   let grid = parse_data data in
   let start_pos = find_start grid in
   let path = get_loop grid start_pos in
-  (abs (shoe_lace path) - List.length path + 3) / 2
-  |> Printf.printf "Part2: %d\n"
+  (abs (shoe_lace path) - List.length path + 3) / 2 |> Printf.printf "Part2: %d\n"
 ;;

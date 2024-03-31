@@ -17,9 +17,7 @@ let repeat_list n lst =
 ;;
 
 let unfold_spring unfold ch_lst =
-  if unfold < 1
-  then ch_lst
-  else repeat_list (unfold - 1) (ch_lst @ [ '?' ]) @ ch_lst
+  if unfold < 1 then ch_lst else repeat_list (unfold - 1) (ch_lst @ [ '?' ]) @ ch_lst
 ;;
 
 let parse_data ?(unfold_times = 0) strs =
@@ -63,9 +61,7 @@ let count_arrangements spring n_damaged =
       count
   and count_damaged k spr dmgs =
     let dmgd_sample, rest_sample = get_n k spr in
-    let is_broken =
-      List.length dmgd_sample = k && not (List.mem '.' dmgd_sample)
-    in
+    let is_broken = List.length dmgd_sample = k && not (List.mem '.' dmgd_sample) in
     match rest_sample with
     | [] -> if is_broken then look_spring [] dmgs else 0
     | ch :: rest ->
