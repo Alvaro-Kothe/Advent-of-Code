@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 left_list = []
 right_list = []
 count = Hash.new(0)
