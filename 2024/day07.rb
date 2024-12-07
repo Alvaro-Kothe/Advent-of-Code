@@ -5,32 +5,33 @@ def parse_line(str)
   [lhs.to_i, rhs.split.map(&:to_i)]
 end
 
-def valid_equation?(target, numbers, operators, operator, acc)
-  first, *rest = numbers
-  acc = apply_operator(operator, acc, first)
-  return acc == target if rest.empty?
-  return false if acc > target
+# Return a boolean, indicating if the operation is valid, and the result from the operation, which is the new rhs
+def verify_operator(operator, target, rhs)
+  case operator
+  when 1 # Sum
+    [true, target - rhs]
+  when 2 # Product
+    q, r = target.divmod(rhs)
+    [r.zero?, q]
+  when 3 # Concatenation
+    # Need to verify if the target ends with the rhs
+    n = rhs.to_s.length
+    target_str = target.to_s
+    left = target_str[0...-n].to_i
+    right = target_str[-n..].to_i
+    [right == rhs, left]
+  end
+end
+
+def valid_equation?(target, numbers, operators)
+  *rest, tail = numbers
+  return tail == target if rest.empty?
 
   operators.each do |op|
-    return true if valid_equation?(target, rest, operators, op, acc)
+    valid, new_target = verify_operator(op, target, tail)
+    return true if valid && valid_equation?(new_target, rest, operators)
   end
-
   false
-end
-
-def apply_operator(operator, lhs, rhs)
-  case operator
-  when 1
-    lhs + rhs
-  when 2
-    lhs * rhs
-  when 3
-    concatenate(lhs, rhs)
-  end
-end
-
-def concatenate(lhs, rhs)
-  (lhs.to_s + rhs.to_s).to_i
 end
 
 p1 = 0
@@ -40,10 +41,10 @@ ARGF.each do |line|
   break if line.empty?
 
   target, numbers = parse_line(line)
-  if valid_equation?(target, numbers, [2, 1], 1, 0)
+  if valid_equation?(target, numbers, [2, 1])
     p1 += target
     p2 += target
-  elsif valid_equation?(target, numbers, [3, 2, 1], 1, 0)
+  elsif valid_equation?(target, numbers, [3, 2, 1])
     p2 += target
   end
 end
